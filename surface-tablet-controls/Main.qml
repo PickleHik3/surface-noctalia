@@ -17,8 +17,10 @@ Item {
         return cfg[key] ?? defaults[key] ?? "";
     }
 
-    function shellQuote(value) {
-        return "'" + String(value).replace(/'/g, "'\"'\"'") + "'";
+    function shellDoubleQuote(value) {
+        return "\"" + String(value)
+            .replace(/\\/g, "\\\\")
+            .replace(/"/g, "\\\"") + "\"";
     }
 
     function runShell(script, actionLabel) {
@@ -31,23 +33,23 @@ Item {
 
     function openRecentApps() {
         const path = getSetting("recentAppsPath");
-        runShell("quickshell ipc -p " + shellQuote(path) + " call expose open smartgrid", "Recent apps");
+        runShell("quickshell ipc -p " + shellDoubleQuote(path) + " call expose open smartgrid", "Recent apps");
     }
 
     function keyboardAuto() {
-        runShell(shellQuote(getSetting("keyboardAutoScript")), "Keyboard auto");
+        runShell(shellDoubleQuote(getSetting("keyboardAutoScript")), "Keyboard auto");
     }
 
     function keyboardShow() {
-        runShell(shellQuote(getSetting("keyboardShowScript")), "Keyboard show");
+        runShell(shellDoubleQuote(getSetting("keyboardShowScript")), "Keyboard show");
     }
 
     function keyboardHide() {
-        runShell(shellQuote(getSetting("keyboardHideScript")), "Keyboard hide");
+        runShell(shellDoubleQuote(getSetting("keyboardHideScript")), "Keyboard hide");
     }
 
     function keyboardDisable() {
-        runShell(shellQuote(getSetting("keyboardDisableScript")), "Keyboard disable");
+        runShell(shellDoubleQuote(getSetting("keyboardDisableScript")), "Keyboard disable");
     }
 
     IpcHandler {
